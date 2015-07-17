@@ -14,3 +14,11 @@
 .hand {
   overflow: auto;
 }
+
+.is-shown {
+  display: block;
+}
+
+.is-hidden {
+  display: none;
+}
