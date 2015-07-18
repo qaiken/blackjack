@@ -26,15 +26,18 @@ class window.AppView extends Backbone.View
     @$newGame = @$('.new-game')
     @$standBtn = @$('.stand-button')
 
-    @listenTo @model.get('playerHand'), 'bust', @dealerWins
-    @listenTo @model.get('dealerHand'), 'bust', @playerWins
-
+    @listenTo(@model,'tie', @tie);
     @listenTo(@model,'dealerWins', @dealerWins);
+    @listenTo(@model,'playerWins', @playerWins);
 
   gameOver: ->
     @$newGame.removeClass 'is-hidden'
     @$hitBtn.addClass 'is-hidden' 
     @$standBtn.addClass 'is-hidden'
+
+  tie: ->
+    @gameOver()
+    @$el.prepend('<p>Tie Game</p>')
 
   dealerWins: ->
     @gameOver()

@@ -10,8 +10,17 @@ class window.HandView extends Backbone.View
   updateScore: ->
     minScore = @collection.scores()[0]
     maxScore = @collection.scores()[1]
-    score = minScore
-    score = minScore + ' or ' + maxScore if minScore != maxScore and !@collection.isDealer
+
+    if @collection.isDealer
+      score = minScore
+    else
+      score = maxScore
+      if minScore != maxScore
+        if maxScore <= 21
+          score = minScore + ' or ' + maxScore
+        else
+          score = minScore
+
     @$('.score').text score
 
   addNewCard: (card) ->
