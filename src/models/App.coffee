@@ -13,9 +13,13 @@ class window.App extends Backbone.Model
 
     @get('dealerHand').at(0).flip()
 
-    while @get('dealerHand').maxScore() <= playerScore
-      @get('dealerHand').hit()
-      if @get('dealerHand').isBust()
-        return
+    dealerPlay = =>
+      if @get('dealerHand').maxScore() <= playerScore
+        @get('dealerHand').hit()
+        if !@get('dealerHand').isBust()
+          setTimeout dealerPlay, 1000
+      else
+        @trigger('dealerWins')
+      
+    setTimeout dealerPlay, 1000
 
-    @trigger('dealerWins');

@@ -4,6 +4,7 @@ class window.HandView extends Backbone.View
 
   initialize: ->
     @listenTo @collection, 'add', @addNewCard
+    @listenTo @collection, 'flip', @updateScore
     @render()
 
   updateScore: ->
@@ -14,7 +15,7 @@ class window.HandView extends Backbone.View
     @$('.score').text score
 
   addNewCard: (card) ->
-    @$('.hand').append new CardView(model: card).$el
+    @$('.hand').append(new CardView(model: card).$el)
     @updateScore()
 
   render: ->
