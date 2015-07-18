@@ -12,3 +12,4 @@ describe "blackjack view", ->
 
   it "should have a dealer hand with two cards", ->
     assert(view.$el.find('.dealer-hand-container').children().length,2);
+    

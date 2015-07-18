@@ -5,6 +5,16 @@
   border-radius: 5px;
   height: 140px;
   margin-right: 20px;
+  animation: fadeIn 1s ease 0s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .covered {

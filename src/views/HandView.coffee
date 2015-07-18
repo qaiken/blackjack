@@ -3,8 +3,11 @@ class window.HandView extends Backbone.View
   template: _.template '<h2><% if(isDealer){ %>Dealer<% }else{ %>You<% } %> (<span class="score"></span>)</h2><div class="hand"></div>'
 
   initialize: ->
-    @collection.on 'add remove change', => @render()
+    @listenTo @collection, 'add', @addNewCard
     @render()
+
+  addNewCard: (card) ->
+    @$('.hand').append new CardView(model: card).$el
 
   render: ->
     @$el.children().detach()
