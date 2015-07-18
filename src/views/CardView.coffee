@@ -3,10 +3,14 @@ class window.CardView extends Backbone.View
 
   template: _.template '<%= rankName %> of <%= suitName %>'
 
-  initialize: -> @render()
+  initialize: ->
+    @listenTo @model, 'flip', @unCover
+    @render()
+
+  unCover: ->
+    @$el.removeClass 'covered'
 
   render: ->
     @$el.children().detach()
     @$el.html @template @model.attributes
-    @$el.addClass 'covered' unless @model.get 'revealed'
-
+    @$el.addClass 'covered' if !@model.get 'revealed'
