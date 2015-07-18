@@ -8,24 +8,37 @@ class window.AppView extends Backbone.View
 
   events:
     'click .hit-button': -> 
-      @model.get('playerHand').hit()
-      if _(@model.get('playerHand').scores()).min() > 21
-        @gameOver()
+      playerHand = @model.get('playerHand')
+      playerHand.hit()
+      playerHand.isBust()
 
     'click .stand-button': ->
       @model.get('playerHand').stand()
 
     'click .new-game': ->
       @model = new App()
-      @render()
+      @initialize()
 
   initialize: ->
     @render()
+
+    @listenTo(@model.get('playerHand'), 'bust', @dealerWins)
+    @listenTo(@model.get('dealerHand'), 'bust', @playerWins)
+
+    @listenTo(@model,'dealerWins', @dealerWins);
 
   gameOver: ->
     @$('.new-game').removeClass 'is-hidden'
     @$('.hit-button').addClass 'is-hidden' 
     @$('.stand-button').addClass 'is-hidden'
+
+  dealerWins: ->
+    @gameOver()
+    @$el.prepend('<p>You Lose</p>')
+
+  playerWins: ->
+    @gameOver()
+    @$el.prepend('<p>You Win</p>')
 
   render: ->
     @$el.children().detach()

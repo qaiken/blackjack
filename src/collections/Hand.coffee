@@ -16,6 +16,17 @@ class window.Hand extends Backbone.Collection
     score + if card.get 'revealed' then card.get 'value' else 0
   , 0
 
+  maxScore: -> 
+    @scores()[1]
+
+  stand: ->
+    @trigger 'stand'
+
+  isBust: ->
+    if @minScore() > 21
+      @trigger 'bust'
+      true
+
   scores: ->
     # The scores are an array of potential scores.
     # Usually, that array contains one element. That is the only score.
