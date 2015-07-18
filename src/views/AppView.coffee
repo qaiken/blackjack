@@ -2,8 +2,6 @@ class window.AppView extends Backbone.View
   template: _.template '
     <button class="new-game is-hidden">Play Again</button>
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
-    <div class="player-hand-container"></div>
-    <div class="dealer-hand-container"></div>
   '
 
   events:
@@ -22,8 +20,8 @@ class window.AppView extends Backbone.View
   initialize: ->
     @render()
 
-    @listenTo(@model.get('playerHand'), 'bust', @dealerWins)
-    @listenTo(@model.get('dealerHand'), 'bust', @playerWins)
+    @listenTo @model.get('playerHand'), 'bust', @dealerWins
+    @listenTo @model.get('dealerHand'), 'bust', @playerWins
 
     @listenTo(@model,'dealerWins', @dealerWins);
 
@@ -43,6 +41,12 @@ class window.AppView extends Backbone.View
   render: ->
     @$el.children().detach()
     @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$el.append new HandView(
+      collection: @model.get 'playerHand'
+      className: 'player-hand-container'
+    ).el
+    @$el.append new HandView(
+      collection: @model.get 'dealerHand'
+      className: 'dealer-hand-container'
+    ).el
 
