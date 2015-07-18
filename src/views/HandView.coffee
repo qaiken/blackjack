@@ -6,13 +6,21 @@ class window.HandView extends Backbone.View
     @listenTo @collection, 'add', @addNewCard
     @render()
 
+  updateScore: ->
+    minScore = @collection.scores()[0]
+    maxScore = @collection.scores()[1]
+    score = minScore
+    score = minScore + ' or ' + maxScore if minScore != maxScore and !@collection.isDealer
+    @$('.score').text score
+
   addNewCard: (card) ->
     @$('.hand').append new CardView(model: card).$el
+    @updateScore()
 
   render: ->
     @$el.children().detach()
     @$el.html @template @collection
-    @$('.score').text @collection.scores()[0]
+    @updateScore()
     @$('.hand').append @collection.map (card) ->
       new CardView(model: card).$el
 
