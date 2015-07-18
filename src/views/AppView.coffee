@@ -12,6 +12,8 @@ class window.AppView extends Backbone.View
 
     'click .stand-button': ->
       @model.get('playerHand').stand()
+      @$standBtn.attr 'disabled', true
+      @$hitBtn.attr 'disabled', true
 
     'click .new-game': ->
       @model = new App()
@@ -20,15 +22,19 @@ class window.AppView extends Backbone.View
   initialize: ->
     @render()
 
+    @$hitBtn = @$('.hit-button')
+    @$newGame = @$('.new-game')
+    @$standBtn = @$('.stand-button')
+
     @listenTo @model.get('playerHand'), 'bust', @dealerWins
     @listenTo @model.get('dealerHand'), 'bust', @playerWins
 
     @listenTo(@model,'dealerWins', @dealerWins);
 
   gameOver: ->
-    @$('.new-game').removeClass 'is-hidden'
-    @$('.hit-button').addClass 'is-hidden' 
-    @$('.stand-button').addClass 'is-hidden'
+    @$newGame.removeClass 'is-hidden'
+    @$hitBtn.addClass 'is-hidden' 
+    @$standBtn.addClass 'is-hidden'
 
   dealerWins: ->
     @gameOver()
